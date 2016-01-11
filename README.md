@@ -13,6 +13,11 @@ For those of you who have read the spec(s).  This is a full implementation (not
 a lite implementation), with full trickle (as opposed to half trickle), and
 aggressive nomination (as opposed to regular nomination).
 
+This module was seperated from
+[my Node.js RTCPeerConnection](https://github.com/nickdesaulniers/node-rtc-peer-connection)
+implementation for reusability. As such, that library drives the interface to
+this library.
+
 ## What's Missing
 * TURN candidate support
 * Peer Reflexive candidate support
