@@ -1,0 +1,46 @@
+// dot -Tsvg ice_connection_state.dot > ice_connection_state.svg
+digraph ice_connection_state {
+  // https://w3c.github.io/webrtc-pc/#rtciceconnectionstate-enum
+
+  // The list of states (nodes)
+  node [shape = doublecircle];
+  NEW;
+  node [shape = circle];
+  CHECKING;
+  CONNECTED;
+  COMPLETED;
+  FAILED;
+  DISCONNECTED;
+  CLOSED;
+
+  // The list of transistions (edges)
+  NEW -> CHECKING [label = "set remote candidates"];
+  // All states can transition to NEW or CLOSED.
+  //NEW -> NEW [label = "ICE restart"];
+  //NEW -> CLOSED [label = "close"];
+
+  CHECKING -> CONNECTED [label = "one check completes"];
+  CHECKING -> FAILED [label = "all checks have failed"];
+  //CHECKING -> NEW [label = "ICE restart"];
+  //CHECKING -> CLOSED [label = "close"];
+
+  CONNECTED -> COMPLETED [label = "finished all checks"];
+  CONNECTED -> DISCONNECTED [label = "lost connectivity"];
+  //CONNECTED -> NEW [label = "ICE restart"];
+  //CONNECTED -> CLOSED [label = "close"];
+
+  COMPLETED -> DISCONNECTED [label = "lost connectivity"];
+  //COMPLETED -> NEW [label = "ICE restart"];
+  //COMPLETED -> CLOSED [label = "close"];
+
+  FAILED -> DISCONNECTED [label = "wtf how does this work?"]; // doesn't seem right
+  //FAILED -> NEW [label = "ICE restart"];
+  //FAILED -> CLOSED [label = "close"];
+
+  DISCONNECTED -> CONNECTED [label = "was able to reconnect"];
+  DISCONNECTED -> COMPLETED [label = "finished all checks"];
+  DISCONNECTED -> FAILED [label = "all checks have failed"]
+  //DISCONNECTED -> NEW [label = "ICE restart"];
+  //DISCONNECTED -> CLOSED [label = "close"];
+}
+
